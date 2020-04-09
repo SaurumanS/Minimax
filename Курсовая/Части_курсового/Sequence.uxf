@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>13</zoom_level>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>26</x>
+      <y>52</y>
+      <w>130</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>_Пользователь_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>78</x>
+      <y>78</y>
+      <w>39</w>
+      <h>377</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;270.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>624</x>
+      <y>52</y>
+      <w>169</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>_Отрисовка_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>689</x>
+      <y>78</y>
+      <w>39</w>
+      <h>390</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;280.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>338</x>
+      <y>52</y>
+      <w>130</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>_Игровое поле_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>78</y>
+      <w>39</w>
+      <h>403</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;290.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>78</x>
+      <y>117</y>
+      <w>351</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>Начать игру
+lt=-&gt;&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;250.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>156</y>
+      <w>338</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>Отрисовка игрового поля
+lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;240.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>403</x>
+      <y>195</y>
+      <w>325</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>Возрат отрисованного
+поля
+lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;20.0;230.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>78</x>
+      <y>221</y>
+      <w>338</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>Передача отрисованного
+игрового поля
+lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;20.0;240.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>689</x>
+      <y>182</y>
+      <w>26</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>845</x>
+      <y>39</y>
+      <w>208</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>_Поиск оптимальной_
+_стратегии_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>936</x>
+      <y>78</y>
+      <w>39</w>
+      <h>377</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;270.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>78</x>
+      <y>286</y>
+      <w>351</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>Произведен ход
+lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>250.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>403</x>
+      <y>338</y>
+      <w>572</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>Возрат, сделанного компьютером хода
+lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;20.0;420.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>403</x>
+      <y>364</y>
+      <w>325</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>Отрисовка игрового поля
+lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;230.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>403</x>
+      <y>390</y>
+      <w>325</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>Возрат отрисованного
+поля
+lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;20.0;230.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>403</x>
+      <y>312</y>
+      <w>572</w>
+      <h>52</h>
+    </coordinates>
+    <panel_attributes>Передача иформации о сделанном ходе
+lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>420.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>78</x>
+      <y>390</y>
+      <w>338</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>Передача отрисованного
+игрового поля
+lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;20.0;240.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>936</x>
+      <y>338</y>
+      <w>26</w>
+      <h>26</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>390</x>
+      <y>312</y>
+      <w>26</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>78</x>
+      <y>143</y>
+      <w>26</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>78</x>
+      <y>312</y>
+      <w>26</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>390</x>
+      <y>143</y>
+      <w>26</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+</diagram>
