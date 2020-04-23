@@ -3,10 +3,61 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:Minimax"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid ShowGridLines="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0"
+              ShowGridLines="True"
+              PreviewMouseLeftButtonUp="gridGameField_PreviewMouseLeftButtonUp"
+              x:Name="gridGameField"/>
         
+        <StackPanel Grid.Column="1"
+                    Orientation="Vertical">
+            <TextBlock Text="Настройки"
+                       TextAlignment="Center"/>
+            
+            <GroupBox Header="Select side">
+                <StackPanel Orientation="Vertical">
+                    <RadioButton Content="X"
+                                 x:Name="radioButtonX"
+                                 IsChecked="True"/>
+                    <RadioButton Content="0"
+                                 x:Name="radioButtonY"/>
+                </StackPanel>
+            </GroupBox>
+
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,10,0,0">
+
+                <TextBlock Text="Field Size  "/>
+                <xctk:IntegerUpDown Name="sizeUpDownControl"
+                                    Maximum="10"
+                                    Minimum="3"
+                                    Value="3"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,10,0,0">
+
+                <TextBlock Text="Level         "/>
+                <xctk:IntegerUpDown Name="levelUpDownControl"
+                                    Maximum="8"
+                                    Minimum="1"
+                                    Value="1"/>
+            </StackPanel>
+            
+            <Button Content="Start" 
+                    Margin="0,10,0,0"
+                    x:Name="buttonStartGame"
+                    Click="buttonStartGame_Click"/>
+            
+        </StackPanel>
     </Grid>
 </Window>
