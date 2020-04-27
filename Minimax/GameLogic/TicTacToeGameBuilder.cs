@@ -8,11 +8,11 @@ namespace Minimax.GameLogic
 {
     class TicTacToeGameBuilder
     {
-        public static TicTacToeGame Create(int size, bool DidPlayerChoseX, int level, MainWindow thisForm)
+        public static TicTacToeGame Create(int size, bool DidPlayerChoseX, int playUntil, int level, MainWindow thisForm)
         {
             bool firstPlayerIsComputer = !DidPlayerChoseX;
             Minimax.Algorithm.IAlgorithm algorithm = new Algorithm.MinimaxAlgorithmDump();
-            TicTacToeGame TicTacToe = new TicTacToeGame(size, algorithm, firstPlayerIsComputer);
+            TicTacToeGame TicTacToe = new TicTacToeGame(size, algorithm, playUntil, level, firstPlayerIsComputer);
             GameFieldObserver gameFieldObserver = new GameFieldObserver(thisForm);
             TicTacToe.AddObserver(gameFieldObserver);
             return TicTacToe;

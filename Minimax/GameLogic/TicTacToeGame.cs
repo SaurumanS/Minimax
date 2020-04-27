@@ -14,6 +14,9 @@ namespace Minimax.GameLogic
 
         private readonly int fieldSize;
 
+        //The necessary sequence for victory
+        private readonly int playUntil;
+
         //The First player makes the move first
         private const byte FIRST_PLAYER_ID = 1;
         private const byte SECOND_PLAYER_ID = 2;
@@ -32,6 +35,8 @@ namespace Minimax.GameLogic
 
         public bool? IsWinnerHere { get; set; } = false;
 
+        private readonly int level;
+
         private void CurrentPlayerPropertyChanged()
         {
             if (firstPlayerIsAComputer && currentPlayer == FIRST_PLAYER_ID)
@@ -43,12 +48,14 @@ namespace Minimax.GameLogic
         //This is a question. This game knows that one of these players is a computer
         private readonly bool firstPlayerIsAComputer;
 
-        public TicTacToeGame(int fieldSize, IAlgorithm algorithm, bool firstPlayerIsAComputer)
+        public TicTacToeGame(int fieldSize, IAlgorithm algorithm, int playUntil, int level,  bool firstPlayerIsAComputer)
         {
             Algorithm = algorithm;
             this.firstPlayerIsAComputer = firstPlayerIsAComputer;
             GameField = TicTacToeGameFieldBuilder.Create(fieldSize);
             this.fieldSize = fieldSize;
+            this.playUntil = playUntil;
+            this.level = level;
             Observers = new List<IObserver>();
 
         }
@@ -84,7 +91,7 @@ namespace Minimax.GameLogic
 
         private void ComputerMove()
         {
-            var moveCoordinate = Algorithm.Algorithm(GetGameField);
+            var moveCoordinate = Algorithm.Algorithm(GetGameField, level);
             MakeMove(moveCoordinate.Item1, moveCoordinate.Item2);
         }
         private void ChangeCurrentPlayer()
@@ -115,7 +122,7 @@ namespace Minimax.GameLogic
             var maxSequence = GetMaxSequenceRelativeMoveMade(gameField, symbol, lastX, lastY);
 
             bool? result;
-            if (maxSequence >= fieldSize)
+            if (maxSequence >= playUntil)
                 result = true;
             else
             {
@@ -323,6 +330,24 @@ namespace Minimax.GameLogic
         {
             foreach (var curr in Observers)
                 curr.Update();
+        }
+        public string InfoAboutWinner()
+        {
+            string result;
+            if (IsWinnerHere == false)
+                result = null;
+            else if (IsWinnerHere == null)
+                result = "Draw";
+            else
+            {
+                if (firstPlayerIsAComputer && currentPlayer == FIRST_PLAYER_ID)
+                    result = "You lose";
+                else if (!firstPlayerIsAComputer && currentPlayer == SECOND_PLAYER_ID)
+                    result = "You lose";
+                else
+                    result = "You win. Congratulations";
+            }
+            return result;
         }
     }
 }

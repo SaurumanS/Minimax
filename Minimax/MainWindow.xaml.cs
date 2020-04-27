@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Minimax.GameLogic;
+using Xceed.Wpf.Toolkit;
 
 namespace Minimax
 {
@@ -23,7 +24,7 @@ namespace Minimax
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        public bool IsWinnerHere { get; private set; }
+        public bool? IsWinnerHere => TicTacToe.IsWinnerHere;
         private TicTacToeGame TicTacToe { get; set; }
         public MainWindow()
         {
@@ -83,16 +84,23 @@ namespace Minimax
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
 
-        public void WinnerIsHere(bool state)
-        {
-            IsWinnerHere = state;
-        }
 
         private void gridGameField_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            TextBlock textBlock = (TextBlock) e.Source;
+            if (IsWinnerHere != false)
+            {
+                System.Windows.MessageBox.Show(TicTacToe.InfoAboutWinner(), "Game over", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            TextBlock textBlock = (TextBlock)e.Source;
             int[] coordinates = textBlock.Tag.ToString().Split(' ').Select(curr => int.Parse(curr)).ToArray();
             TicTacToe.MakeMove(coordinates[0], coordinates[1]);
+
+            string infoAboutWinner = TicTacToe.InfoAboutWinner();
+            if(!String.IsNullOrEmpty(infoAboutWinner))
+            {
+                System.Windows.MessageBox.Show(infoAboutWinner, "Game over", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         public void Update()
@@ -102,13 +110,27 @@ namespace Minimax
 
         private void buttonStartGame_Click(object sender, RoutedEventArgs e)
         {
+            GameField = null;
             bool isXChecked = (bool) radioButtonX.IsChecked;
             int size =(int) sizeUpDownControl.Value;
             int level = (int)levelUpDownControl.Value;
-            TicTacToe = TicTacToeGameBuilder.Create(size, isXChecked, level, this);
+            int playUntil = (int)playUntilUpDownControl.Value;
+            TicTacToe = TicTacToeGameBuilder.Create(size, isXChecked, playUntil, level, this);
             DrawGameField(size);
             DataContext = this;
             TicTacToe.StartGame();
+        }
+
+        private void UpDownControl_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            IntegerUpDown integerUpDown = (IntegerUpDown)sender;
+            if (integerUpDown != null)
+            {
+                if (integerUpDown.Value > integerUpDown.Maximum)
+                    integerUpDown.Value = integerUpDown.Maximum;
+                else if (integerUpDown.Value < integerUpDown.Minimum)
+                    integerUpDown.Value = integerUpDown.Minimum;
+            }
         }
     }
 }

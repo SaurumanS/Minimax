@@ -74,6 +74,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Algorithm\MinimaxAlgorithm.cs" />
     <Compile Include="Algorithm\MinimaxAlgorithmDump.cs" />
     <Compile Include="ArrayExt.cs" />
     <Compile Include="GameLogic\IObservable.cs" />
