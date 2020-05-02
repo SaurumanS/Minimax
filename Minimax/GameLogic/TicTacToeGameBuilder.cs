@@ -11,7 +11,7 @@ namespace Minimax.GameLogic
         public static TicTacToeGame Create(int size, bool DidPlayerChoseX, int playUntil, int level, MainWindow thisForm)
         {
             bool firstPlayerIsComputer = !DidPlayerChoseX;
-            Minimax.Algorithm.IAlgorithm algorithm = new Algorithm.MinimaxAlgorithmDump();
+            Minimax.Algorithm.IAlgorithm algorithm = new Algorithm.MinimaxAlgorithm();
             TicTacToeGame TicTacToe = new TicTacToeGame(size, algorithm, playUntil, level, firstPlayerIsComputer);
             GameFieldObserver gameFieldObserver = new GameFieldObserver(thisForm);
             TicTacToe.AddObserver(gameFieldObserver);

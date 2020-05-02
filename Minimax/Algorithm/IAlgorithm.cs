@@ -9,6 +9,6 @@ namespace Minimax.Algorithm
 {
     public interface IAlgorithm
     {
-        (int, int) Algorithm(string[,] gameField, int maxDeph);
+        (int, int) Algorithm(string[,] gameField, int maxDeph, int playUntil, string computerGameSymbol, string playerGameSymbol);
     }
 }

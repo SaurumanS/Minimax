@@ -20,5 +20,10 @@ namespace Minimax.Algorithm
             }
             return (0, 0);
         }
+
+        public (int, int) Algorithm(string[,] gameField, int maxDeph, int playUntil, string computerGameSymbol, string playerGameSymbol)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

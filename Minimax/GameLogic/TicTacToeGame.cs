@@ -91,7 +91,20 @@ namespace Minimax.GameLogic
 
         private void ComputerMove()
         {
-            var moveCoordinate = Algorithm.Algorithm(GetGameField, level);
+            string computerSymbol;
+            string playerSymbol;
+            if (firstPlayerIsAComputer)
+            {
+                computerSymbol = GameField.FirstPlayerSymbol;
+                playerSymbol = GameField.SecondPlayerSymbol;
+            }
+            else
+            {
+                computerSymbol = GameField.SecondPlayerSymbol;
+                playerSymbol = GameField.FirstPlayerSymbol;
+            }
+
+            var moveCoordinate = Algorithm.Algorithm(GetGameField, level, playUntil, computerSymbol,playerSymbol);
             MakeMove(moveCoordinate.Item1, moveCoordinate.Item2);
         }
         private void ChangeCurrentPlayer()
