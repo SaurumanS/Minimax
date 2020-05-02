@@ -146,236 +146,95 @@ namespace Minimax.Algorithm
         */
         private int Heuristic(string[,] gameField, int x, int y)
         {
-            string currentSymbol = null;
-            int currentX;
-            int currentY;
-            string symbol;
+            Func<int, int> xBehaviour;
+            Func<int, int> yBehaviour;
+            Func<Func<int, int>, Func<int, int>, (int,int)> calculateKZ = (xBehav, yBehav) => CalculateKZ(gameField, x, y, xBehav, yBehav);
 
-            int k = 0; //length of the assemble combination (All sides)
-            int z = 0; //length of the destroy combination (All sides)
+            int k = 0;
+            int z = 0;
 
             int tempK;
             int tempZ;
             #region NorthWest->curr->SouthEast
 
-
-            
-            currentSymbol = null;
-            currentX = x;
-            currentY = y;
-            symbol = null;
             tempK = 0;
             tempZ = 0;
-            do
-            {
-                currentX--;
-                currentY--;
 
-                if (currentX < 0 ||
-                    currentY < 0)
-                    break;
-                if (symbol == null)
-                    symbol = gameField[currentX, currentY];
-                if (symbol == null) break;
+            xBehaviour = (index) => index - 1;
+            yBehaviour = (index) => index - 1;
+            var NWC_KZ = calculateKZ(xBehaviour, yBehaviour);
+            tempK += NWC_KZ.Item1;
+            tempZ += NWC_KZ.Item2;
 
-                currentSymbol = gameField[currentX, currentY];
-                if (currentSymbol == computerGameSymbol)
-                    tempK++;
-                else if(currentSymbol == playerGameSymbol)
-                    tempZ++;
-
-            } while (currentSymbol == symbol);
-
-            currentSymbol = null;
-            currentX = x;
-            currentY = y;
-            symbol = null;
-            do
-            {
-                currentX++;
-                currentY++;
-
-                if (currentX >= gameField.GetLength(0) ||
-                    currentY >= gameField.GetLength(1))
-                    break;
-
-                if (symbol == null)
-                    symbol = gameField[currentX, currentY];
-                if (symbol == null) break;
-                currentSymbol = gameField[currentX, currentY];
-                if (currentSymbol == computerGameSymbol)
-                    tempK++;
-                else if (currentSymbol == playerGameSymbol)
-                    tempZ++;
-
-            } while (currentSymbol == symbol);
-            if (tempK != 0)
-                tempK++;
-            if (tempK >= playUntil || tempZ >= playUntil-1)
+            xBehaviour = (index) => index + 1;
+            yBehaviour = (index) => index + 1;
+            var CSE_KZ = calculateKZ(xBehaviour, yBehaviour);
+            tempK += CSE_KZ.Item1;
+            tempZ += CSE_KZ.Item2;
+            if (CheckOnWinCombination(tempK, tempZ))
                 return int.MaxValue;
-            k += tempK;
-            z += tempZ;
+
             #endregion
             #region North->curr->South
 
-
-
-            currentSymbol = null;
-            currentX = x;
-            currentY = y;
             tempK = 0;
             tempZ = 0;
-            do
-            {
 
-                currentX--;
+            xBehaviour = (index) => index - 1;
+            yBehaviour = (index) => index;
+            var NC_KZ = calculateKZ(xBehaviour, yBehaviour);
+            tempK += NC_KZ.Item1;
+            tempZ += NC_KZ.Item2;
 
-                if (currentX < 0)
-                    break;
-
-                if (symbol == null)
-                    symbol = gameField[currentX, currentY];
-                if (symbol == null) break;
-                currentSymbol = gameField[currentX, currentY];
-                if (currentSymbol == computerGameSymbol)
-                    tempK++;
-                else if (currentSymbol == playerGameSymbol)
-                    tempZ++;
-
-            } while (currentSymbol == symbol);
-            currentSymbol = null;
-            currentX = x;
-            currentY = y;
-            do
-            {
-
-                currentX++;
-
-                if (currentX >= gameField.GetLength(0))
-                    break;
-                if (symbol == null)
-                    symbol = gameField[currentX, currentY];
-                if (symbol == null) break;
-                currentSymbol = gameField[currentX, currentY];
-                if (currentSymbol == computerGameSymbol)
-                    tempK++;
-                else if (currentSymbol == playerGameSymbol)
-                    tempZ++;
-
-            } while (currentSymbol == symbol);
-            if (tempK != 0)
-                tempK++;
-            if (tempK >= playUntil || tempZ >= playUntil)
+            xBehaviour = (index) => index + 1;
+            yBehaviour = (index) => index;
+            var CS_KZ = calculateKZ(xBehaviour, yBehaviour);
+            tempK += CS_KZ.Item1;
+            tempZ += CS_KZ.Item2;
+            if (CheckOnWinCombination(tempK, tempZ))
                 return int.MaxValue;
-            k += tempK;
-            z += tempZ;
             #endregion
             #region NorthEast->curr->SouthWest
 
-            currentSymbol = null;
-            currentX = x;
-            currentY = y;
-            do
-            {
-
-                currentX--;
-                currentY++;
-
-                if (currentX < 0 ||
-                    currentY >= gameField.GetLength(1))
-                    break;
-                if (symbol == null)
-                    symbol = gameField[currentX, currentY];
-                if (symbol == null) break;
-                currentSymbol = gameField[currentX, currentY];
-                if (currentSymbol == computerGameSymbol)
-                    tempK++;
-                else if (currentSymbol == playerGameSymbol)
-                    tempZ++;
-
-            } while (currentSymbol == symbol);
-            currentSymbol = null;
-            currentX = x;
-            currentY = y;
             tempK = 0;
             tempZ = 0;
-            do
-            {
-                currentX++;
-                currentY--;
 
-                if (currentX >= gameField.GetLength(0) ||
-                    currentY < 0)
-                    break;
-                if (symbol == null)
-                    symbol = gameField[currentX, currentY];
-                if (symbol == null) break;
-                currentSymbol = gameField[currentX, currentY];
-                if (currentSymbol == computerGameSymbol)
-                    tempK++;
-                else if (currentSymbol == playerGameSymbol)
-                    tempZ++;
+            xBehaviour = (index) => index - 1;
+            yBehaviour = (index) => index + 1;
+            var NEC_KZ = calculateKZ(xBehaviour, yBehaviour);
+            tempK += NEC_KZ.Item1;
+            tempZ += NEC_KZ.Item2;
 
-            } while (currentSymbol == symbol);
-            if (tempK != 0)
-                tempK++;
-            if (tempK >= playUntil || tempZ >= playUntil)
+            xBehaviour = (index) => index + 1;
+            yBehaviour = (index) => index - 1;
+            var CSW_KZ = calculateKZ(xBehaviour, yBehaviour);
+
+            tempK += CSW_KZ.Item1;
+            tempZ += CSW_KZ.Item2;
+            if (CheckOnWinCombination(tempK, tempZ))
                 return int.MaxValue;
-            k += tempK;
-            z += tempZ;
+
             #endregion
             #region East->curr->West
-
-
-
-            currentSymbol = null;
-            currentX = x;
-            currentY = y;
             tempK = 0;
             tempZ = 0;
-            do
-            {
 
-                currentY++;
+            xBehaviour = (index) => index;
+            yBehaviour = (index) => index + 1;
+            var EC_KZ = calculateKZ(xBehaviour, yBehaviour);
 
-                if (currentY >= gameField.GetLength(1))
-                    break;
-                if (symbol == null)
-                    symbol = gameField[currentX, currentY];
-                if (symbol == null) break;
-                currentSymbol = gameField[currentX, currentY];
-                if (currentSymbol == computerGameSymbol)
-                    tempK++;
-                else if (currentSymbol == playerGameSymbol)
-                    tempZ++;
+            tempK += EC_KZ.Item1;
+            tempZ += EC_KZ.Item2;
 
-            } while (currentSymbol == symbol);
-            currentSymbol = null;
-            currentX = x;
-            currentY = y;
-            do
-            {
+            xBehaviour = (index) => index;
+            yBehaviour = (index) => index - 1;
+            var CW_KZ = calculateKZ(xBehaviour, yBehaviour);
 
-                currentY--;
-
-                if (currentY < 0)
-                    break;
-                if (symbol == null)
-                    symbol = gameField[currentX, currentY];
-                if (symbol == null) break;
-                currentSymbol = gameField[currentX, currentY];
-                if (currentSymbol == computerGameSymbol)
-                    tempK++;
-                else if (currentSymbol == playerGameSymbol)
-                    tempZ++;
-
-            } while (currentSymbol == symbol);
-            if (tempK != 0)
-                tempK++;
-            if (tempK >= playUntil || tempZ >= playUntil)
+            tempK += CW_KZ.Item1;
+            tempZ += CW_KZ.Item2;
+            if (CheckOnWinCombination(tempK, tempZ))
                 return int.MaxValue;
-            k += tempK;
-            z += tempZ;
+
             #endregion
 
             return GetScore(k, z);
@@ -396,7 +255,9 @@ namespace Minimax.Algorithm
                 currentY = yBehaviour(currentY);
 
                 if (currentX < 0 ||
-                    currentY < 0)
+                    currentY < 0 ||
+                    currentX >= gameField.GetLength(0) - 1 ||
+                    currentY >= gameField.GetLength(1) - 1)
                     break;
                 if (String.IsNullOrEmpty(symbol))
                     symbol = gameField[currentX, currentY];
@@ -419,6 +280,12 @@ namespace Minimax.Algorithm
             return (k, z);
         }
 
+        private bool CheckOnWinCombination(int k, int z)
+        {
+            if (k >= playUntil || z >= playUntil)
+                return true;
+            return false;
+        }
         private int GetScore(int k, int z)
         {
             int score = Fact(k + 2) + Fact(z + 2);
