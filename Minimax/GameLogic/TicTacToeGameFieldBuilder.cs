@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Minimax.GameLogic
 {
-    class TicTacToeGameFieldBuilder
+    public class TicTacToeGameFieldBuilder
     {
         public static GameField Create(int fieldSize)
         {

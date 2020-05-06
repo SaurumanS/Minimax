@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Minimax.GameLogic
 {
-    interface IObservable
+    public interface IObservable
     {
         void AddObserver(IObserver o);
         void RemoveObserver(IObserver o);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Minimax.Algorithm
 {
-    class MinimaxAlgorithm : IAlgorithm
+    public class MinimaxAlgorithm : IAlgorithm
     {
 
         public (int, int) Algorithm(string[,] gameField, int maxDeph, int playUntil, string computerGameSymbol, string playerGameSymbol)
@@ -70,7 +70,7 @@ namespace Minimax.Algorithm
         {
             bool isTerminal = IsTerminal(gameField, row, column, deph);
             if (isTerminal)
-                return Heuristic(gameField, row, column);
+                return -Heuristic(gameField, row, column);
 
             int score = beta;
 
@@ -78,7 +78,7 @@ namespace Minimax.Algorithm
 
             foreach (var curr in childrens)
             {
-                int tempScore = Min(gameField, curr.Item1, curr.Item2, deph + 1, alpha, score);
+                int tempScore = Max(gameField, curr.Item1, curr.Item2, deph + 1, alpha, score);
                 if (tempScore < score)
                     score = tempScore;
                 if (score <= alpha)
@@ -171,6 +171,8 @@ namespace Minimax.Algorithm
             var CSE_KZ = calculateKZ(xBehaviour, yBehaviour);
             tempK += CSE_KZ.Item1;
             tempZ += CSE_KZ.Item2;
+
+            
             if (CheckOnWinCombination(tempK, tempZ))
                 return int.MaxValue;
 
@@ -191,6 +193,7 @@ namespace Minimax.Algorithm
             var CS_KZ = calculateKZ(xBehaviour, yBehaviour);
             tempK += CS_KZ.Item1;
             tempZ += CS_KZ.Item2;
+            
             if (CheckOnWinCombination(tempK, tempZ))
                 return int.MaxValue;
             #endregion
@@ -211,6 +214,7 @@ namespace Minimax.Algorithm
 
             tempK += CSW_KZ.Item1;
             tempZ += CSW_KZ.Item2;
+            
             if (CheckOnWinCombination(tempK, tempZ))
                 return int.MaxValue;
 
@@ -232,6 +236,8 @@ namespace Minimax.Algorithm
 
             tempK += CW_KZ.Item1;
             tempZ += CW_KZ.Item2;
+
+            
             if (CheckOnWinCombination(tempK, tempZ))
                 return int.MaxValue;
 
@@ -256,8 +262,8 @@ namespace Minimax.Algorithm
 
                 if (currentX < 0 ||
                     currentY < 0 ||
-                    currentX >= gameField.GetLength(0) - 1 ||
-                    currentY >= gameField.GetLength(1) - 1)
+                    currentX > gameField.GetLength(0) - 1 ||
+                    currentY > gameField.GetLength(1) - 1)
                     break;
                 if (String.IsNullOrEmpty(symbol))
                     symbol = gameField[currentX, currentY];

@@ -1,6 +1,6 @@
 ﻿namespace Minimax
 {
-    internal interface IObserver
+    public interface IObserver
     {
         void Update();
     }

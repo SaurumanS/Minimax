@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Minimax.GameLogic
 {
-    class TicTacToeGame: IObservable
+    public class TicTacToeGame: IObservable
     {
         private IAlgorithm Algorithm;
         private GameField GameField;
