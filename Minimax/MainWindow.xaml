@@ -61,7 +61,7 @@
                 <TextBlock Text="Play Until  "/>
                 <xctk:IntegerUpDown Name="playUntilUpDownControl"
                                     Minimum="3"
-                                    Maximum="{Binding ElementName=sizeUpDownControl,Path=Value}"
+                                    Maximum="5"
                                     ValueChanged="UpDownControl_ValueChanged"
                                     Value="3"/>
             </StackPanel>

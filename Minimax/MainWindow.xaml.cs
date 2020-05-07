@@ -110,11 +110,18 @@ namespace Minimax
 
         private void buttonStartGame_Click(object sender, RoutedEventArgs e)
         {
+
             GameField = null;
             bool isXChecked = (bool) radioButtonX.IsChecked;
             int size =(int) sizeUpDownControl.Value;
             int level = (int)levelUpDownControl.Value;
             int playUntil = (int)playUntilUpDownControl.Value;
+            if (playUntil > size)
+            {
+                System.Windows.MessageBox.Show("Play Until Less Than Size Of Field", "Incorrect Arguments", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+                
             TicTacToe = TicTacToeGameBuilder.Create(size, isXChecked, playUntil, level, this);
             DrawGameField(size);
             DataContext = this;

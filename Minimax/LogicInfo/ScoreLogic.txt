@@ -1,0 +1,22 @@
+﻿win sequence 3:
+	capped one: 1 (score)
+	open one: 10
+	capped two: 100
+	open two: 1000
+	consecutive three: 10000
+	
+win sequence 4: + win sequence 3 +
+	capped three: 10000 (score)
+	open three: 100000
+	consecutive four: 1000000
+
+win sequence 5: + win sequence 4 +
+	capped four: 1000000 (score)
+	open four: 10000000
+	consecutive four: 100000000
+
+Functions:
+	open: 10 * 100^(m-1)
+	capped: 100^(m-1)
+	consecutive: 100^(m-1)
+Where m is k or z (see MinimaxAlgorithm.cs)

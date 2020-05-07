@@ -76,6 +76,7 @@
     </ApplicationDefinition>
     <Compile Include="Algorithm\MinimaxAlgorithm.cs" />
     <Compile Include="Algorithm\MinimaxAlgorithmDump.cs" />
+    <Compile Include="Algorithm\MinimaxVersion2.cs" />
     <Compile Include="ArrayExt.cs" />
     <Compile Include="GameLogic\IObservable.cs" />
     <Compile Include="GameLogic\TicTacToeGameBuilder.cs" />
@@ -125,6 +126,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="LogicInfo\ScoreLogic.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
