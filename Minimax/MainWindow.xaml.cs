@@ -139,5 +139,7 @@ namespace Minimax
                     integerUpDown.Value = integerUpDown.Minimum;
             }
         }
+
+
     }
 }

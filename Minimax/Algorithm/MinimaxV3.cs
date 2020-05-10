@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Minimax.Algorithm
 {
-    class MinimaxVersion2 : IAlgorithm
+    class MinimaxV3 : IAlgorithm
     {
         private int maxDeph { get; set; }
         private string computerGameSymbol { get; set; }
         private string playerGameSymbol { get; set; }
         private int playUntil { get; set; }
+        List<string> afa = new List<string>();
 
         public (int, int) Algorithm(string[,] gameField, int maxDeph, int playUntil, string computerGameSymbol, string playerGameSymbol)
         {
@@ -20,15 +21,15 @@ namespace Minimax.Algorithm
             this.playerGameSymbol = playerGameSymbol;
             this.playUntil = playUntil;
             (int, int) result = (-1, -1);
-            int maxScore = int.MinValue;
+            double maxScore = int.MinValue;
             for (int row = 0; row < gameField.GetLength(0); row++)
             {
                 for (int column = 0; column < gameField.GetLength(1); column++)
                 {
                     if (String.IsNullOrEmpty(gameField[row, column]))
                     {
-                        int score = Max(gameField, row, column, 1, int.MinValue, int.MaxValue);
-                        if (score > maxScore)
+                        double score = Max(gameField, row, column, 1, int.MinValue, int.MaxValue);
+                        if (score > maxScore && score !=0)
                         {
                             maxScore = score;
                             result = (row, column);
@@ -40,23 +41,23 @@ namespace Minimax.Algorithm
             return result;
         }
 
-        private int Max(string[,] gameField, int row, int column, int deph, int alpha, int beta)
+        private double Max(string[,] gameField, int row, int column, int deph, double alpha, double beta)
         {
             string[,] gameFieldClone = (string[,])gameField.Clone();
             gameFieldClone[row, column] = computerGameSymbol;
 
             bool isTerminal = IsTerminal(gameFieldClone, row, column, deph);
             if (isTerminal)
-                return Heuristic(gameField, row, column);
+                return FieldHeuristic(gameFieldClone, true);
 
-            int score = alpha;
+            double score = alpha;
 
             var childrens = GetChildCoordinates(gameFieldClone, row, column);
 
 
             foreach (var curr in childrens)
             {
-                int tempScore = Min(gameFieldClone, curr.Item1, curr.Item2, deph + 1, score, beta);
+                double tempScore = Min(gameFieldClone, curr.Item1, curr.Item2, deph + 1, score, beta);
                 if (tempScore > score)
                     score = tempScore;
                 if (beta <= score)
@@ -67,22 +68,22 @@ namespace Minimax.Algorithm
         }
 
 
-        private int Min(string[,] gameField, int row, int column, int deph, int alpha, int beta)
+        private double Min(string[,] gameField, int row, int column, int deph, double alpha, double beta)
         {
             string[,] gameFieldClone = (string[,])gameField.Clone();
             gameFieldClone[row, column] = playerGameSymbol;
 
             bool isTerminal = IsTerminal(gameFieldClone, row, column, deph);
             if (isTerminal)
-                return -Heuristic(gameField, row, column);
+                return FieldHeuristic(gameFieldClone, false);
 
-            int score = beta;
+            double score = beta;
 
             var childrens = GetChildCoordinates(gameFieldClone, row, column);
 
             foreach (var curr in childrens)
             {
-                int tempScore = Max(gameFieldClone, curr.Item1, curr.Item2, deph + 1, alpha, score);
+                double tempScore = Max(gameFieldClone, curr.Item1, curr.Item2, deph + 1, alpha, score);
                 if (tempScore < score)
                     score = tempScore;
                 if (score <= alpha)
@@ -146,6 +147,53 @@ namespace Minimax.Algorithm
             return childrens;
         }
 
+        private double FieldHeuristic(string[,] gameField, bool isMaxPlayer)
+        {
+            bool[,] whoIsCheck = new bool[gameField.GetLength(0), gameField.GetLength(1)];
+            double computerScore = 0;
+            double playerScore = 0;
+            for (int row = 0; row < gameField.GetLength(0); row++)
+            {
+                for (int column = 0; column < gameField.GetLength(1); column++)
+                {
+                    if (!whoIsCheck[row, column])
+                    {
+                        if(gameField[row,column] == computerGameSymbol)
+                            computerScore += Heuristic(gameField, row, column, whoIsCheck);
+                        else if(gameField[row, column] == playerGameSymbol)
+                            playerScore += Heuristic(gameField, row, column, whoIsCheck);
+                    }
+                }
+            }
+
+            double finalScore = 0;
+
+            playerScore *= -1;
+            finalScore = computerScore + playerScore;
+            afa.Add($" {finalScore}");
+            //if (isMaxPlayer)
+            //    finalScore = computerScore;
+            //else
+            //    finalScore = computerScore;
+
+
+            //if (isMaxPlayer)
+            //{
+            //    if (playerScore >= 10 * (int)Math.Pow(100, playUntil - 3))
+            //        finalScore = -playerScore;
+            //    else
+            //        finalScore = computerScore - playerScore;
+            //}
+            //else
+            //{
+            //    if (computerScore >= 10 * (int)Math.Pow(100, playUntil - 3))
+            //        finalScore = computerScore;
+            //    else
+            //        finalScore = computerScore - playerScore;
+            //}
+
+            return finalScore;
+        }
 
         #region HeuristicRegion
         /*
@@ -156,8 +204,13 @@ namespace Minimax.Algorithm
          * -----------------------------
          * southWest | south | southEast
         */
-        private int Heuristic(string[,] gameField, int x, int y)
+        private int Heuristic(string[,] gameField, int x, int y, bool[,] whoIsCheck)
         {
+            whoIsCheck[x, y] = true;
+            if (String.IsNullOrEmpty(gameField[x, y]))
+            {
+                return 0;
+            }
 
             Func<int, int> xBehaviour1;
             Func<int, int> yBehaviour1;
@@ -165,7 +218,7 @@ namespace Minimax.Algorithm
             Func<int, int> xBehaviour2;
             Func<int, int> yBehaviour2;
 
-            Func<Func<int, int>, Func<int, int>, Func<int, int>, Func<int, int>, int> getHeuristicScore = (xBehav1, yBehav1, xBehav2, yBehav2) => GetHeuristicScore(gameField, x, y, xBehav1, yBehav1, xBehav2, yBehav2);
+            Func<Func<int, int>, Func<int, int>, Func<int, int>, Func<int, int>, int> getHeuristicScore = (xBehav1, yBehav1, xBehav2, yBehav2) => GetHeuristicScore(gameField, x, y, whoIsCheck, xBehav1, yBehav1, xBehav2, yBehav2);
 
             int score = 0;
             #region NorthWest->curr->SouthEast
@@ -212,29 +265,28 @@ namespace Minimax.Algorithm
 
             score += getHeuristicScore(xBehaviour1, yBehaviour1, xBehaviour2, yBehaviour2);
             #endregion
-            
+
             return score;
         }
 
         private int GetHeuristicScore(string[,] gameField,
             int x,
             int y,
+            bool[,] whoIsCheck,
             Func<int, int> xBehaviour1,
             Func<int, int> yBehaviour1,
             Func<int, int> xBehaviour2,
             Func<int, int> yBehaviour2)
         {
 
-            string symbol = null;
+            string symbol = gameField[x,y];
             string currentSymbol = symbol;
             int currentX = x;
             int currentY = y;
             bool leftLocked = false;
             bool rightLocked = false;
-            bool wasLeftK = false;
 
             int k = 1;
-            int z = 1;
             do
             {
                 currentX = xBehaviour1(currentX);
@@ -248,11 +300,8 @@ namespace Minimax.Algorithm
                     leftLocked = true;
                     break;
                 }
+
                 
-                if(String.IsNullOrEmpty(symbol))
-                    symbol = gameField[currentX, currentY];
-                if (String.IsNullOrEmpty(symbol))
-                    break;
 
                 currentSymbol = gameField[currentX, currentY];
                 if (currentSymbol != symbol)
@@ -261,18 +310,13 @@ namespace Minimax.Algorithm
                         leftLocked = true;
                     break;
                 }
+                else
+                    whoIsCheck[currentX, currentY] = true;
 
-                if (currentSymbol == computerGameSymbol)
-                {
-                    wasLeftK = true;
-                    k++;
-                }
-                else if (currentSymbol == playerGameSymbol)
-                    z++;
+                k++;
 
             } while (currentSymbol == symbol);
 
-            symbol = null;
             currentX = x;
             currentY = y;
             do
@@ -289,10 +333,6 @@ namespace Minimax.Algorithm
                     break;
                 }
 
-                if (String.IsNullOrEmpty(symbol))
-                    symbol = gameField[currentX, currentY];
-                if (String.IsNullOrEmpty(symbol))
-                    break;
 
                 currentSymbol = gameField[currentX, currentY];
                 if (currentSymbol != symbol)
@@ -301,23 +341,20 @@ namespace Minimax.Algorithm
                         rightLocked = true;
                     break;
                 }
+                else
+                    whoIsCheck[currentX, currentY] = true;
 
-                if (currentSymbol == computerGameSymbol)
-                    k++;
-                else if (currentSymbol == playerGameSymbol)
-                    z++;
+                k++;
 
             } while (currentSymbol == symbol);
 
-            //In this case, k (x,y coordinate) was counted twice
-            if (k == 1 && z == 0)
-                return 0;
+            
 
-            return GetScore(k, z, wasLeftK, leftLocked, rightLocked);
+            return GetScore(k, leftLocked, rightLocked);
         }
 
         //See LogicInfo\ScoreInfo.txt for score logic
-        private int GetScore(int k, int z, bool wasLeftK,  bool leftLocked, bool rightLocked)
+        private int GetScore(int k, bool leftLocked, bool rightLocked)
         {
             int score = 0;
 
@@ -329,76 +366,10 @@ namespace Minimax.Algorithm
                 }
                 else if (rightLocked && leftLocked)
                     score = 0;
-                else if (wasLeftK)
-                {
-                    if (leftLocked)
-                    {
-                        if (z == 0)
-                            score += (int)Math.Pow(100, k - 1);
-                    }
-                    else
-                    {
-                        if (z != 0)
-                            score += (int)Math.Pow(100, k - 1);
-                        else
-                            score += 10 * (int)Math.Pow(100, k - 1);
-                    }
-                }
-                else
-                {
-                    if (rightLocked)
-                    {
-                        if (z == 0)
-                            score += (int)Math.Pow(100, k - 1);
-                    }
-                    else
-                    {
-                        if (z != 0)
-                            score += (int)Math.Pow(100, k - 1);
-                        else
-                            score += 10 * (int)Math.Pow(100, k - 1);
-                    }
-                }
-            }
-
-            if (z != 0)
-            {
-                if (z >= playUntil)
-                {
-                    score += (int)Math.Pow(100, z - 1);
-                }
-                else if (rightLocked && leftLocked)
-                    score = 0;
-                else if (wasLeftK)
-                {
-                    if (rightLocked)
-                    {
-                        if (k == 0)
-                            score += (int)Math.Pow(100, z - 1);
-                    }
-                    else
-                    {
-                        if (k == 0)
-                            score += 10 *(int)Math.Pow(100, z - 1);
-                        else
-                            score += (int)Math.Pow(100, z - 1);
-                    }
-                }
-                else
-                {
-                    if (leftLocked)
-                    {
-                        if (k == 0)
-                            score += (int)Math.Pow(100, z - 1);
-                    }
-                    else
-                    {
-                        if (k != 0)
-                            score += (int)Math.Pow(100, z - 1);
-                        else
-                            score += 10 * (int)Math.Pow(100, z - 1);
-                    }
-                }
+                else if((rightLocked && !leftLocked) || (!rightLocked && leftLocked))
+                    score += (int)Math.Pow(100, k - 1);
+                else if (!rightLocked && !leftLocked)
+                    score += 10 * (int)Math.Pow(100, k - 1);
             }
 
             return score;
@@ -510,9 +481,9 @@ namespace Minimax.Algorithm
 
             return sequences.Max();
         }
-        private int GetSequence(string[,] gameField, 
-            string symbol, 
-            int x, 
+        private int GetSequence(string[,] gameField,
+            string symbol,
+            int x,
             int y,
             Func<int, int> xBehaviour1,
             Func<int, int> yBehaviour1,
