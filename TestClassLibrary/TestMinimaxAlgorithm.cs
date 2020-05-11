@@ -24,7 +24,7 @@ namespace TestClassLibrary
         {
             int playUntil = 3;
             int maxDeph = 1;
-            IAlgorithm algorithm = new MinimaxAlgorithm();
+            IAlgorithm algorithm = new MinimaxVersion2();
             string[,] gameField = new string[,]
                 {
                     {playerGameSymbol,null,playerGameSymbol },
@@ -38,6 +38,62 @@ namespace TestClassLibrary
                     {playerGameSymbol,null, null},
                     {null,null,null },
                     {null,null,playerGameSymbol }
+                };
+            yield return new TestCaseData(algorithm, gameField, playUntil, maxDeph).Returns((1, 1));
+            gameField = new string[,]
+                {
+                    {playerGameSymbol,playerGameSymbol, null},
+                    {null,null,null },
+                    {null,null,null }
+                };
+            yield return new TestCaseData(algorithm, gameField, playUntil, maxDeph).Returns((0, 2));
+
+            gameField = new string[,]
+                {
+                    {playerGameSymbol,null, null},
+                    {playerGameSymbol,null,null },
+                    {null,null,null }
+                };
+            yield return new TestCaseData(algorithm, gameField, playUntil, maxDeph).Returns((2, 0));
+
+            gameField = new string[,]
+                {
+                    {null,null, playerGameSymbol},
+                    {null,null,null },
+                    {playerGameSymbol,null,null }
+                };
+            yield return new TestCaseData(algorithm, gameField, playUntil, maxDeph).Returns((1, 1));
+
+            gameField = new string[,]
+                {
+                    {null,null, playerGameSymbol},
+                    {null,null,null },
+                    {playerGameSymbol,null,null }
+                };
+            yield return new TestCaseData(algorithm, gameField, playUntil, maxDeph).Returns((1, 1));
+
+            gameField = new string[,]
+                {
+                    {computerGameSymbol,null, computerGameSymbol},
+                    {null,null,null },
+                    {playerGameSymbol,null,null }
+                };
+            yield return new TestCaseData(algorithm, gameField, playUntil, maxDeph).Returns((0, 1));
+
+
+            gameField = new string[,]
+                {
+                    {computerGameSymbol,computerGameSymbol, null},
+                    {null,null,null },
+                    {playerGameSymbol,playerGameSymbol,null }
+                };
+            yield return new TestCaseData(algorithm, gameField, playUntil, maxDeph).Returns((0, 2));
+
+            gameField = new string[,]
+                {
+                    {computerGameSymbol,null, computerGameSymbol},
+                    {null,null,null },
+                    {playerGameSymbol,playerGameSymbol,computerGameSymbol }
                 };
             yield return new TestCaseData(algorithm, gameField, playUntil, maxDeph).Returns((1, 1));
         }

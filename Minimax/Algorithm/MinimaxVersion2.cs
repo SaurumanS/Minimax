@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Minimax.Algorithm
 {
-    class MinimaxVersion2 : IAlgorithm
+    public class MinimaxVersion2 : IAlgorithm
     {
         private int maxDeph { get; set; }
         private string computerGameSymbol { get; set; }

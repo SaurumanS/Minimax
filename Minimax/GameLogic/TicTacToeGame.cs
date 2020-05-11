@@ -23,10 +23,10 @@ namespace Minimax.GameLogic
 
         //Which player should make a move now
         private byte currentPlayer;
-        private byte CurrentPlayer
+        public byte CurrentPlayer
         {
             get { return currentPlayer; }
-            set
+            private set
             {
                 currentPlayer = value;
                 CurrentPlayerPropertyChanged();
